@@ -20,12 +20,22 @@ object Inventory {
         return (items[item]?.quantity ?: 0) > 0
     }
 
-    fun reduceItemQuantity(item: String) {
+    /**
+     * Extracts an item from the inventory by reducing its quantity by one.
+     * Returns the price of the item if available, or `null` if the item is out of stock.
+     * Also prints out an error if item is out of stock
+     *
+     * @param item The name of the item to extract from the inventory.
+     * @return The price of the item as a [Double] if available, or `null` if out of stock.
+     */
+    fun extractItem(item: String): Double? {
         val inventoryItem = items[item]
         if (inventoryItem != null && inventoryItem.quantity > 0) {
             inventoryItem.quantity -= 1
+            return inventoryItem.price
         } else {
             println("Item \"$item\" is out of stock!")
+            return null
         }
     }
 

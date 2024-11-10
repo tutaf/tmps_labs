@@ -7,10 +7,13 @@ abstract class Order(private val orderDetails: OrderDetails) {
     abstract fun processOrder()
 
     protected fun processOrderItems() {
+        var orderTotal: Double = 0.0
         println("Order Details:")
         orderDetails.mainCourse?.let {
             if (Inventory.isItemAvailable(it)) {
-                Inventory.reduceItemQuantity(it)
+                Inventory.extractItem(it)?.let { itemPrice ->
+                    orderTotal += itemPrice
+                }
                 println("Main Course: $it")
             } else {
                 println("Main Course: $it - not available")
@@ -18,7 +21,9 @@ abstract class Order(private val orderDetails: OrderDetails) {
         }
         orderDetails.drink?.let {
             if (Inventory.isItemAvailable(it)) {
-                Inventory.reduceItemQuantity(it)
+                Inventory.extractItem(it)?.let { itemPrice ->
+                    orderTotal += itemPrice
+                }
                 println("Drink: $it")
             } else {
                 println("Drink: $it - not available")
@@ -26,7 +31,9 @@ abstract class Order(private val orderDetails: OrderDetails) {
         }
         orderDetails.dessert?.let {
             if (Inventory.isItemAvailable(it)) {
-                Inventory.reduceItemQuantity(it)
+                Inventory.extractItem(it)?.let { itemPrice ->
+                    orderTotal += itemPrice
+                }
                 println("Dessert: $it")
             } else {
                 println("Dessert: $it - not available")
@@ -36,12 +43,15 @@ abstract class Order(private val orderDetails: OrderDetails) {
             println("Extras:")
             orderDetails.extras.forEach { extra ->
                 if (Inventory.isItemAvailable(extra)) {
-                    Inventory.reduceItemQuantity(extra)
+                    Inventory.extractItem(extra)?.let { itemPrice ->
+                        orderTotal += itemPrice
+                    }
                     println(" - $extra")
                 } else {
                     println(" - $extra - not available")
                 }
             }
         }
+        println("Total price: $$orderTotal")
     }
 }
