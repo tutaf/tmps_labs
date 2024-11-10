@@ -4,10 +4,12 @@ import domain.models.OrderDetails
 import domain.inventory.Inventory
 
 abstract class Order(private val orderDetails: OrderDetails) {
+    protected var orderTotal: Double = 0.0
+
     abstract fun processOrder()
 
     protected fun processOrderItems() {
-        var orderTotal: Double = 0.0
+        orderTotal = 0.0
         println("Order Details:")
         orderDetails.mainCourse?.let {
             if (Inventory.isItemAvailable(it)) {
@@ -52,6 +54,7 @@ abstract class Order(private val orderDetails: OrderDetails) {
                 }
             }
         }
-        println("Total price: $$orderTotal")
     }
+
+    abstract fun printOrderTotal()
 }

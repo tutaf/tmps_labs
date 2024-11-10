@@ -7,4 +7,8 @@ class DineInOrder(orderDetails: OrderDetails) : Order(orderDetails) {
         println("\nProcessing Dine-In Order:")
         processOrderItems()
     }
+
+    override fun printOrderTotal() {
+        println("---\nOrder total: $$orderTotal\n---")
+    }
 }

@@ -5,7 +5,7 @@ import domain.factory.OrderFactory
 import domain.inventory.Inventory
 
 fun main() {
-    Inventory.showInventory()
+    //Inventory.showInventory()
 
     val dineInOrderDetails = OrderDetailsBuilder("dinein")
         .setMainCourse("Pizza")
@@ -17,7 +17,8 @@ fun main() {
     val orderFactory = OrderFactory()
     val dineInOrder = orderFactory.createOrder(dineInOrderDetails)
     dineInOrder.processOrder()
+    dineInOrder.printOrderTotal()
 
 
-    Inventory.showInventory()
+    //Inventory.showInventory()
 }
