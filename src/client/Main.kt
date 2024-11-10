@@ -3,6 +3,7 @@ package client
 import domain.models.OrderDetailsBuilder
 import domain.factory.OrderFactory
 import domain.inventory.Inventory
+import domain.order.DiscountedOrder
 
 fun main() {
     //Inventory.showInventory()
@@ -15,7 +16,13 @@ fun main() {
         .build()
 
     val orderFactory = OrderFactory()
-    val dineInOrder = orderFactory.createOrder(dineInOrderDetails)
+    var dineInOrder = orderFactory.createOrder(dineInOrderDetails)
+
+    println("Apply discount? (Y/N)")
+    when (readln().lowercase()) {
+        "y" -> dineInOrder = DiscountedOrder(dineInOrder)
+    }
+
     dineInOrder.processOrder()
     dineInOrder.printOrderTotal()
 

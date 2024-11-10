@@ -3,7 +3,7 @@ package domain.order
 import domain.models.OrderDetails
 import domain.inventory.Inventory
 
-abstract class Order(private val orderDetails: OrderDetails) {
+abstract class Order(internal val orderDetails: OrderDetails) {
     protected var orderTotal: Double = 0.0
 
     abstract fun processOrder()
@@ -55,6 +55,8 @@ abstract class Order(private val orderDetails: OrderDetails) {
             }
         }
     }
+
+    internal fun getOrderTotal(): Double = orderTotal
 
     abstract fun printOrderTotal()
 }
