@@ -5,5 +5,6 @@ data class OrderDetails(
     val mainCourse: String?,
     val drink: String?,
     val dessert: String?,
-    val extras: List<String>
+    val extras: List<String>,
+    val combos: List<String>
 )

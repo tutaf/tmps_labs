@@ -13,6 +13,7 @@ fun main() {
         .setDrink("Coke")
         .setDessert("Cheesecake")
         .addExtra("Fries")
+        .addCombo("Burger Combo")
         .build()
 
     val orderFactory = OrderFactory()

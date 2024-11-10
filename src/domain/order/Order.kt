@@ -11,47 +11,35 @@ abstract class Order(internal val orderDetails: OrderDetails) {
     protected fun processOrderItems() {
         orderTotal = 0.0
         println("Order Details:")
+        val itemsToProcess = mutableListOf<String>()
+        val itemNames = mutableListOf<String>()
+
         orderDetails.mainCourse?.let {
-            if (Inventory.isItemAvailable(it)) {
-                Inventory.extractItem(it)?.let { itemPrice ->
-                    orderTotal += itemPrice
-                }
-                println("Main Course: $it")
-            } else {
-                println("Main Course: $it - not available")
-            }
+            itemsToProcess.add(it)
+            itemNames.add("Main Course")
         }
         orderDetails.drink?.let {
-            if (Inventory.isItemAvailable(it)) {
-                Inventory.extractItem(it)?.let { itemPrice ->
-                    orderTotal += itemPrice
-                }
-                println("Drink: $it")
-            } else {
-                println("Drink: $it - not available")
-            }
+            itemsToProcess.add(it)
+            itemNames.add("Drink")
         }
         orderDetails.dessert?.let {
-            if (Inventory.isItemAvailable(it)) {
-                Inventory.extractItem(it)?.let { itemPrice ->
+            itemsToProcess.add(it)
+            itemNames.add("Dessert")
+        }
+        itemsToProcess.addAll(orderDetails.extras)
+        itemNames.addAll(List(orderDetails.extras.size) { "Extra" })
+        itemsToProcess.addAll(orderDetails.combos)
+        itemNames.addAll(List(orderDetails.combos.size) { "Combo" })
+
+
+        itemsToProcess.forEachIndexed { index, itemName ->
+            if (Inventory.isItemAvailable(itemName)) {
+                Inventory.extractItem(itemName)?.let { itemPrice ->
                     orderTotal += itemPrice
                 }
-                println("Dessert: $it")
+                println("${itemNames[index]}: $itemName")
             } else {
-                println("Dessert: $it - not available")
-            }
-        }
-        if (orderDetails.extras.isNotEmpty()) {
-            println("Extras:")
-            orderDetails.extras.forEach { extra ->
-                if (Inventory.isItemAvailable(extra)) {
-                    Inventory.extractItem(extra)?.let { itemPrice ->
-                        orderTotal += itemPrice
-                    }
-                    println(" - $extra")
-                } else {
-                    println(" - $extra - not available")
-                }
+                println("${itemNames[index]}: $itemName - not available")
             }
         }
     }
