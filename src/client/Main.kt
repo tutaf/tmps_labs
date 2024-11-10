@@ -1,12 +1,10 @@
 package client
 
+import domain.facade.OrderFacade
 import domain.models.OrderDetailsBuilder
-import domain.factory.OrderFactory
-import domain.inventory.Inventory
 import domain.order.DiscountedOrder
 
 fun main() {
-    //Inventory.showInventory()
 
     val dineInOrderDetails = OrderDetailsBuilder("dinein")
         .setMainCourse("Pizza")
@@ -16,17 +14,15 @@ fun main() {
         .addCombo("Burger Combo")
         .build()
 
-    val orderFactory = OrderFactory()
-    var dineInOrder = orderFactory.createOrder(dineInOrderDetails)
+    val orderFacade = OrderFacade()
+    var order = orderFacade.placeOrder(dineInOrderDetails) ?: return
 
-    println("Apply discount? (Y/N)")
+    println("\nDo you have a discount card? (Y/N)")
     when (readln().lowercase()) {
-        "y" -> dineInOrder = DiscountedOrder(dineInOrder)
+        "y" -> order = DiscountedOrder(order)
     }
 
-    dineInOrder.processOrder()
-    dineInOrder.printOrderTotal()
+    order.printOrderTotal()
 
 
-    //Inventory.showInventory()
 }
