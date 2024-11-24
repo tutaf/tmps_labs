@@ -10,7 +10,7 @@ class OrderFacade {
 
     fun placeOrder(orderDetails: OrderDetails): Order? {
         if (!Inventory.isItemAvailable(orderDetails.mainCourse ?: "")) {
-            println("Main course is not available.")
+            println("You haven't selected a main course or it's not available. Canceling the order")
             return null
         }
         val order = orderFactory.createOrder(orderDetails)

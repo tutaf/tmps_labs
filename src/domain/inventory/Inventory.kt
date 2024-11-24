@@ -1,8 +1,12 @@
 package domain.inventory
 
+import domain.observer.Observer
+import domain.observer.Subject
 
-object Inventory {
+
+object Inventory : Subject {
     private val items = mutableMapOf<String, ItemComponent>()
+    private val observers = mutableListOf<Observer>()
 
     init {
         addItem(InventoryItem("Pizza", quantity = 10, price = 8.99))
@@ -31,6 +35,7 @@ object Inventory {
 
     fun addItem(item: ItemComponent) {
         items[item.name] = item
+        notifyObservers()
     }
 
     fun getItem(name: String): ItemComponent? = items[name]
@@ -49,6 +54,7 @@ object Inventory {
             is InventoryItem -> {
                 if (item.quantity > 0) {
                     item.quantity -= 1
+                    notifyObservers()
                     item.getPrice()
                 } else {
                     println("Item \"$itemName\" is out of stock!")
@@ -61,6 +67,7 @@ object Inventory {
                     item.getItems().forEach {
                         if (it is InventoryItem) it.quantity -= 1
                     }
+                    notifyObservers()
                     item.getPrice()
                 } else {
                     println("Combo \"$itemName\" is out of stock!")
@@ -87,5 +94,17 @@ object Inventory {
                 }
             }
         }
+    }
+
+    override fun attach(observer: Observer) {
+        observers.add(observer)
+    }
+
+    override fun detach(observer: Observer) {
+        observers.remove(observer)
+    }
+
+    override fun notifyObservers() {
+        observers.forEach { it.update(this) }
     }
 }
