@@ -2,6 +2,7 @@ package client
 
 import domain.facade.OrderFacade
 import domain.inventory.Inventory
+import domain.inventory.InventoryDisplay
 import domain.memento.Caretaker
 import domain.models.OrderDetailsBuilder
 import domain.order.DiscountedOrder
@@ -10,6 +11,9 @@ fun main() {
     val caretaker = Caretaker()
     val orderDetailsBuilder = OrderDetailsBuilder("dinein")
     caretaker.saveState(orderDetailsBuilder.saveState())
+
+    val inventoryDisplay = InventoryDisplay()
+    Inventory.attach(inventoryDisplay)
 
     println("Welcome to the Restaurant Ordering System!")
     var isOrdering = true
