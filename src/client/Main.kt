@@ -111,4 +111,15 @@ fun main() {
     }
 
     order.printOrderTotal()
+    order.printState()
+
+    while (true) {
+        println("\nN - Next State; C - Cancel Order; S - Print Current State")
+        when (readLine()?.trim()?.lowercase()) {
+            "n" -> order.nextState()
+            "c" -> order.cancelOrder()
+            "s" -> order.printState()
+            else -> println("Invalid input.")
+        }
+    }
 }

@@ -2,9 +2,12 @@ package domain.order
 
 import domain.models.OrderDetails
 import domain.inventory.Inventory
+import domain.order.state.OrderPlacedState
+import domain.order.state.OrderState
 
 abstract class Order(internal val orderDetails: OrderDetails) {
     protected var orderTotal: Double = 0.0
+    var state: OrderState = OrderPlacedState()
 
     abstract fun processOrder()
 
@@ -47,4 +50,16 @@ abstract class Order(internal val orderDetails: OrderDetails) {
     internal fun getOrderTotal(): Double = orderTotal
 
     abstract fun printOrderTotal()
+
+    fun nextState() {
+        state.nextState(this)
+    }
+
+    fun cancelOrder() {
+        state.cancelOrder(this)
+    }
+
+    fun printState() {
+        println("Current order state: ${state.getStateName()}")
+    }
 }
