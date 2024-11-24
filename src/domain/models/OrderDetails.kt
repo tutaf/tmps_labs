@@ -7,4 +7,8 @@ data class OrderDetails(
     val dessert: String?,
     val extras: List<String>,
     val combos: List<String>
-)
+) {
+    fun isEmpty(): Boolean =
+        mainCourse.isNullOrEmpty() && drink.isNullOrEmpty() && dessert.isNullOrEmpty() && extras.isEmpty() && combos.isEmpty()
+
+}
